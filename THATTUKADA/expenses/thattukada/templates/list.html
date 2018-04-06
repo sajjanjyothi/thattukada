@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Expenses List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th> Date </th>
+            <th> Total Sale </th>
+            <th> Card Machine 1 </th>
+            <th> Card Machine 2 </th>
+            <th> Card Machine 3 </th>
+            <th> Take Away </th>
+            <th> Meat </th>
+            <th> Vegetables </th>
+            <th> Fish </th>
+            <th> Containers </th>
+            <th> Beer </th>
+            <th> Cash & Carry </th>
+            <th> Soft Drinks </th>
+            <th> Credit </th>
+            <th> Salary </th>
+            <th> miscellaneous </th>
+            <th> balance </th>
+        </tr>
+    {% for expense in expenses %}
+        <tr>
+            <td>{{expense.date}}</td>
+            <td>{{expense.total_sale}}</td>
+            <td>{{expense.card1}}</td>
+            <td>{{expense.card2}}</td>
+            <td>{{expense.card3}}</td>
+            <td>{{expense.take_away}}</td>
+            <td>{{expense.meat}}</td>
+            <td>{{expense.vegetables}}</td>
+            <td>{{expense.fish}}</td>
+            <td>{{expense.containers}}</td>
+            <td>{{expense.beer}}</td>
+            <td>{{expense.cash_carry}}</td>
+            <td>{{expense.soft_drinks}}</td>
+            <td>{{expense.credit}}</td>
+            <td>{{expense.salary}}</td>
+            <td>{{expense.miscellaneous}}</td>
+        </tr>
+    {% endfor %}
+    <h2> Total {{total}}</h2>
+    </table>
+    
+</body>
+</html>
