@@ -5,8 +5,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Expenses List</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    {# Load the tag library #}
+    {% load bootstrap3 %}
+
+    {# Load CSS and JavaScript #}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            $( "#datefield" ).datepicker();
+        } );
+    </script>
 </head>
+{% bootstrap_messages %}
 <body>
-    <h1>new</h1>
+    <form method="POST" action="newentry">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+        <button type="submit" class="btn btn-primary">
+        {% bootstrap_icon "star" %} Save
+        </button>
+        {% endbuttons %}
+         <a href="{% url 'index' %}"> Cancel </a>
+    </form>
+</div>
 </body>
 </html>

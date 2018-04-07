@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'thattukada',
+    'bootstrap3',
 ]
 
 MIDDLEWARE = [
@@ -113,6 +114,7 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+DATE_FORMAT = "d-m-Y"
 
 
 # Static files (CSS, JavaScript, Images)

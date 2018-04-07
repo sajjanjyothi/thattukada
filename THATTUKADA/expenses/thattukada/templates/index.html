@@ -2,13 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    {# Load the tag library #}
+    {% load bootstrap3 %}
+
+    {# Load CSS and JavaScript #}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Thattukada</title>
 </head>
 <body>
-    <a href="newentry">New Entry</a>
-    <br>
-    <a href="list">List Expenses</a>
+    <center>
+        <a href="newentry">New Entry</a>
+        <br>
+        <a href="list">List Expenses</a>
+    </center>
 </body>
 </html>
