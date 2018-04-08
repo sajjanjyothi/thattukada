@@ -8,6 +8,8 @@ from django.views.generic import ListView
 from .forms import ExpenseForm
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
+import csv
+from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
@@ -110,3 +112,18 @@ def search(request):
         if expense.balance is not None:
             total = total + expense.balance
     return render(request,'list.html',{'expenses':listExpenses,'total':total})
+
+
+def export(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="expenses.csv"'
+    writer = csv.writer(response)
+    writer.writerow(['Date', 'Total Sale', 'Card Machine 1', 'Card Machine 2', 'Card Machine 3','Take Away','Meat','Vegetables','Fish','Containers',\
+    'Beer','Cash & Carry','Soft Drinks','Credit','Salary','Miscellaneous','Balance'])
+    expenses = Expenses.objects.all()
+    for expense in expenses:
+        writer.writerow([expense.date, expense.total_sale, expense.card1, expense.card2,expense.card3, expense.take_away, \
+        expense.meat,expense.vegetables,expense.fish,expense.containers,\
+        expense.beer, expense.cash_carry,expense.soft_drinks,expense.credit,\
+        expense.salary,expense.miscellaneous,expense.balance])
+    return response

@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^delete/(?P<pk>\d+)/', views.delete, name='delete'),
     url(r'^update/(?P<pk>\d+)/', views.update, name='update'),
     url(r'^search', views.search, name='search'),
+    url(r'^export', views.export, name='export'),
 ]

@@ -28,12 +28,8 @@
     <form method="POST" action="newentry">
         {% csrf_token %}
         {% bootstrap_form form %}
-        {% buttons %}
-        <button type="submit" class="btn btn-primary">
-        {% bootstrap_icon "star" %} Delete
-        </button>
+        <button type="submit" class="btn btn-primary btn-lg active">Delete</button>
         <a href="{% url 'list' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true"> Cancel </a>
-        {% endbuttons %}
     </form>
     </div>
 </body>
