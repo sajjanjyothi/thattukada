@@ -7,14 +7,17 @@ from .models import Expenses
 from django.views.generic import ListView
 from .forms import ExpenseForm
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import csv
 from django.http import HttpResponse
 
 # Create your views here.
+@login_required
 def index(request):
     return render(request,'index.html')
 
+@login_required
 def list(request):
     listExpenses = Expenses.objects.order_by('-date')
     total = 0
@@ -23,6 +26,7 @@ def list(request):
             total = total + expense.balance
     return render(request,'list.html',{'expenses':listExpenses,'total':total})
 
+@login_required
 def newentry(request):
     if request.method == "POST":
         form = ExpenseForm(request.POST)
@@ -48,6 +52,7 @@ def newentry(request):
         form = ExpenseForm()
         return render(request,'new.html',{'form':form})
 
+@login_required
 def update(request,pk):
     expense = get_object_or_404(Expenses, pk=pk)
     if request.method == "POST":
@@ -79,6 +84,7 @@ def update(request,pk):
         form = ExpenseForm(instance=expense)
         return render(request,'update.html',{'form':form})
 
+@login_required
 def delete(request,pk):
     expense = get_object_or_404(Expenses, pk=pk)
     if request.method == "POST":
@@ -96,6 +102,7 @@ def delete(request,pk):
         form = ExpenseForm(instance=expense)
         return render(request,'delete.html',{'form':form})
 
+@login_required
 def search(request):
     if request.method == "POST":
         fromdate = request.POST.get("fromdate", "")
@@ -113,7 +120,7 @@ def search(request):
             total = total + expense.balance
     return render(request,'list.html',{'expenses':listExpenses,'total':total})
 
-
+@login_required
 def export(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="expenses.csv"'

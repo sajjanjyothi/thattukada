@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {# Load the tag library #}
+    {% load bootstrap3 %}
+
+    {# Load CSS and JavaScript #}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Thattukada</title>
+</head>
+<body>
+    <div class="container col-md-4 col-md-offset-4">
+        <h2>Logged Out Of Expense Tracker</h2>
+        <a href="{% url 'login' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true"> Login </a>
+    <div>
+</body>
+</html>
