@@ -9,5 +9,5 @@ class ExpenseForm(forms.ModelForm):
         exclude = ('balance',)
         date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS)
         widgets = {
-            'date': forms.DateInput(attrs={'type': 'date' ,'id': 'datefield'})
+            'date': forms.DateInput(attrs={'id': 'datefield'})
         }

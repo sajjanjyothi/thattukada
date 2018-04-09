@@ -42,7 +42,7 @@
             From Date:
             </td>
             <td>
-            <input type="date" name="fromdate" id="fromdate">
+            <input type="text" name="fromdate" id="fromdate">
             </td>
             </tr>
             <tr>
@@ -50,7 +50,7 @@
             To Date:
             </td>
             <td>
-            <input type="date" name="todate" id="todate">
+            <input type="text" name="todate" id="todate">
             </td>
             </tr>
         </table>
@@ -103,6 +103,25 @@
             <td> <a href="{% url 'update' pk=expense.pk %}"> Update </a> </td>
         </tr>
     {% endfor %}  
+    <tr>
+        <td></td>
+        <td><b>{{total_sale_total}}</b></td>
+        <td><b>{{card1_total}}</b></td>
+        <td><b>{{card2_total}}</b></td>
+        <td><b>{{card3_total}}</b></td>
+        <td><b>{{take_away_total}}</b></td>
+        <td><b>{{meat_total}}</b></td>
+        <td><b>{{veg_total}}</b></td>
+        <td><b>{{fish_total}}</b></td>
+        <td><b>{{container_total}}</b></td>
+        <td><b>{{beer_total}}</b></td>
+        <td><b>{{cash_carry_total}}</b></td>
+        <td><b>{{soft_drinks_total}}</b></td>
+        <td><b>{{credit_total}}</b></td>
+        <td><b>{{salary_total}}</b></td>
+        <td><b>{{misc_total}}</b></td>
+        <td><b>{{total}}</b></td>
+    </tr>
     </table>
     <h4> Total Balance {{total}}</h4>
     <a href="{% url 'index'%}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true"> Home </a>
