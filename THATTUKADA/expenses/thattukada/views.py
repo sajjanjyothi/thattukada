@@ -13,13 +13,22 @@ import csv
 from django.http import HttpResponse
 
 # Create your views here.
-@login_required
-def index(request):
-    return render(request,'index.html')
+def calculate_balance(expense):
+    total = expense.total_sale + \
+            expense.take_away - \
+            expense.meat - \
+            expense.vegetables - \
+            expense.fish - \
+            expense.containers - \
+            expense.beer - \
+            expense.cash_carry - \
+            expense.soft_drinks - \
+            expense.credit - \
+            expense.salary - \
+            expense.miscellaneous
+    return total
 
-@login_required
-def list(request):
-    listExpenses = Expenses.objects.order_by('-date')
+def render_list( request,listExpenses ):
     total = 0
     total_sale_total = 0
     card1_total = 0
@@ -63,23 +72,21 @@ def list(request):
                 'misc_total':misc_total})
 
 @login_required
+def index(request):
+    return render(request,'index.html')
+
+@login_required
+def list(request):
+    listExpenses = Expenses.objects.order_by('-date')
+    return render_list(request,listExpenses)
+
+@login_required
 def newentry(request):
     if request.method == "POST":
         form = ExpenseForm(request.POST)
         if form.is_valid():
             expense = form.save(commit=False)
-            expense.balance = expense.total_sale + \
-                                expense.take_away - \
-                                expense.meat - \
-                                expense.vegetables - \
-                                expense.fish - \
-                                expense.containers - \
-                                expense.beer - \
-                                expense.cash_carry - \
-                                expense.soft_drinks - \
-                                expense.credit - \
-                                expense.salary - \
-                                expense.miscellaneous 
+            expense.balance = calculate_balance(expense)
             expense.save()
         return render(request,'index.html')
     else:   
@@ -93,25 +100,10 @@ def update(request,pk):
         form = ExpenseForm(request.POST, instance=expense)
         if form.is_valid():
             expenseData = form.save(commit=False)
-            expense.balance = expense.total_sale + \
-                                expense.take_away - \
-                                expense.meat - \
-                                expense.vegetables - \
-                                expense.fish - \
-                                expense.containers - \
-                                expense.beer - \
-                                expense.cash_carry - \
-                                expense.soft_drinks - \
-                                expense.credit - \
-                                expense.salary - \
-                                expense.miscellaneous 
+            expense.balance = calculate_balance(expense)
             expenseData.save()  
         listExpenses = Expenses.objects.order_by('-date')
-        total = 0
-        for expense in listExpenses:
-            if expense.balance is not None:
-                total = total + expense.balance
-        return render(request,'list.html',{'expenses':listExpenses,'total':total})  
+        return render_list(request,listExpenses)
     else:
         form = ExpenseForm(instance=expense)
         return render(request,'update.html',{'form':form})
@@ -125,11 +117,8 @@ def delete(request,pk):
             expenseData = form.save(commit=False)
             expenseData.delete()  
         listExpenses = Expenses.objects.order_by('-date')
-        total = 0
-        for expense in listExpenses:
-            if expense.balance is not None:
-                total = total + expense.balance
-        return render(request,'list.html',{'expenses':listExpenses,'total':total})  
+        return render_list(request,listExpenses)
+
     else:
         form = ExpenseForm(instance=expense)
         return render(request,'delete.html',{'form':form})
@@ -147,47 +136,7 @@ def search(request):
             return render(request,'list.html')
         
         listExpenses = Expenses.objects.filter(date__range=[fromdate, todate])
-        total = 0
-        total_sale_total = 0
-        card1_total = 0
-        card2_total = 0
-        card3_total = 0
-        take_away_total = 0
-        meat_total = 0
-        veg_total = 0
-        fish_total = 0
-        container_total = 0
-        beer_total = 0
-        cash_carry_total = 0
-        soft_drinks_total = 0
-        credit_total = 0
-        salary_total = 0
-        misc_total = 0
-        
-        for expense in listExpenses:
-            if expense.balance is not None:
-                total = total + expense.balance
-                total_sale_total += expense.total_sale
-                card1_total += expense.card1
-                card2_total += expense.card2
-                card3_total += expense.card3
-                take_away_total += expense.take_away
-                meat_total += expense.meat
-                veg_total += expense.vegetables
-                fish_total += expense.fish
-                container_total += expense.containers
-                beer_total += expense.beer
-                cash_carry_total += expense.cash_carry
-                soft_drinks_total += expense.soft_drinks
-                credit_total += expense.credit
-                salary_total += expense.salary
-                misc_total += expense.miscellaneous
-        return render(request,'list.html',{'expenses':listExpenses,'total':total,'total_sale_total':total_sale_total,\
-                    'card1_total':card1_total, 'card2_total':card2_total, 'card3_total':card3_total, \
-                    'take_away_total':take_away_total,'meat_total':meat_total,'veg_total':veg_total, \
-                    'fish_total':fish_total,'container_total':container_total,'beer_total':beer_total,'cash_carry_total':cash_carry_total, \
-                    'soft_drinks_total':soft_drinks_total,'credit_total':credit_total,'salary_total':salary_total, \
-                    'misc_total':misc_total})
+        return render_list(request,listExpenses)
 
 @login_required
 def export(request):
