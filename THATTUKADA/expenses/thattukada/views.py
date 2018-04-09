@@ -11,6 +11,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import csv
 from django.http import HttpResponse
+import datetime
+from django.db.models import Sum
 
 # Create your views here.
 def calculate_balance(expense):
@@ -152,3 +154,26 @@ def export(request):
         expense.beer, expense.cash_carry,expense.soft_drinks,expense.credit,\
         expense.salary,expense.miscellaneous,expense.balance])
     return response
+
+@login_required
+def sales(request):
+    now = datetime.datetime.now()
+    sales = []
+    balances = []
+
+    for count in range(1,13):
+        total_sale = Expenses.objects.filter(date__year=now.year, date__month=count).aggregate(Sum('total_sale'))
+        sale = total_sale.get('total_sale__sum',0)
+        if sale is None:
+            sale = 0
+        sales.append(sale)
+
+
+    for count in range(1,13):
+        total_balance = Expenses.objects.filter(date__year=now.year, date__month=count).aggregate(Sum('balance'))
+        balance = total_balance.get('balance__sum',0)
+        if balance is None:
+            balance = 0
+        balances.append(balance)
+
+    return render(request,'sales_chart.html',{'sales':sales,'balances':balances})
